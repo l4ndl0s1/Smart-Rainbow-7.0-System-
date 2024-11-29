@@ -26,7 +26,7 @@ The Flutter Android App acts as the interactive interface for the installation, 
    - Displays temperature differences through intuitive graphs and animations.
    - Real-time updates show how the ice sculpture responds to climate data.
 3. **Bluetooth Connectivity**:
-   - Sends calculated rotation speed data to the **ESP32 microcontroller** via **Bluetooth Low Energy (BLE)**.
+   - Sends calculated rotation speed data to the **ESP32 microcontroller** via **Bluetooth**.
    - Enables seamless communication with the motor control system.
 4. **Aesthetic Design**:
    - A vibrant, rainbow-inspired UI reflects the installation’s theme.
@@ -49,7 +49,7 @@ The motor control system, powered by an **ESP32 microcontroller**, translates th
    - Converts ESP32 control signals into motor movement.
    - Ensures smooth and efficient operation.
 4. **Freezer Box Integration**:
-   - The sculpture rotates inside a transparent freezer box, symbolizing the fragile and frozen state of climate awareness.
+   - The sculpture rotates inside a freezer box, symbolizing the fragile and frozen state of climate awareness.
 
 ---
 
