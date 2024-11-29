@@ -58,3 +58,6 @@ The motor control system, powered by an **ESP32 microcontroller**, translates th
 **Smart Rainbow 7.0** invites viewers to reflect, interact, and act—transforming the beauty of errors into a catalyst for systemic change.
 
 > “Choose your color mode, touch the error, and change your system.” 🌍✨
+
+![Smart Rainbow Logo](smartrainbow70_visuals.jpg)
+
