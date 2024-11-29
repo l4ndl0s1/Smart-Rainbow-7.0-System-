@@ -64,22 +64,16 @@ The motor control system, powered by an **ESP32 microcontroller**, translates th
 ___
 **More Info**
 
-# [Smart Rainbow 7.0 (System)](https://www.smartrainbow7punkt0.systems)
+To experience the project's online extension, explore the interactive website:  
+[smartrainbow7punkt0.systems](http://www.smartrainbow7punkt0.systems/)
 
-# [Smart Rainbow 7.0 (System)](https://fabrikraum.org/information_2.html)
 
-**Smart Rainbow 7.0 (System)** is a multimedia and continuously evolving art (research) project by the **Rainbow Team**—artists **Laurus Edelbacher** and **Anna Watzinger**. The project utilizes the macOS "rotating rainbow cursor" as an interface to communicate the pressing issue of climate change through the prism of the rainbow, a phenomenon rich in beauty, scientific intrigue, and sociopolitical symbolism.  
-[Learn more on Fabrikraum](https://fabrikraum.org/information_2.html)
-
-The installation features ice sculptures representing the "rotating rainbow error cursor," housed within a white freezer box. A webcam captures the rotating ice sculpture, streaming it to a digital MacBook display, thereby linking the digital error symbol with the tangible effects of climate change.  
-[Visit Fabrikraum for details](https://fabrikraum.org/information_2.html)
+[Visit for more details](https://fabrikraum.org/information_2.html)
 
 For more information on the artists and their work, visit their personal websites:
 - **Anna Watzinger**: [annawatzinger.com](https://annawatzinger.com/)
 - **Laurus Edelbacher**: [laurusedelbacher.com](https://laurusedelbacher.com/)
 
-To experience the project's online extension, explore the interactive website:  
-[smartrainbow7punkt0.systems](http://www.smartrainbow7punkt0.systems/)
 
 
 
