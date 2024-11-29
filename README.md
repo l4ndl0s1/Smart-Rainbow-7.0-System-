@@ -3,7 +3,7 @@
 **Smart Rainbow 7.0** is ainteractive art project combining **environmental awareness**, **digital systems**, and **creative expression**. The Flutter Android App and ESP32 motor control system are integral components that bring the installation to life by connecting **real-time climate data** with **physical and digital experiences**.
 
 ---
-![Smart Rainbow Logo](foto 4 monitoring.jpg)
+![Smart Rainbow Logo](foto%204%20monitoring.jpg)
 
 ## Highlights
 - **Interactive Installation**: A freezer box houses ice sculptures resembling the “rainbow error cursor,” symbolizing climate change’s frozen and fragile reality.
