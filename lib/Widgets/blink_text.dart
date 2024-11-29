@@ -16,7 +16,8 @@ class ColorCycleTextAnimation extends StatefulWidget {
   ColorCycleTextAnimationState createState() => ColorCycleTextAnimationState();
 }
 
-class ColorCycleTextAnimationState extends State<ColorCycleTextAnimation> with SingleTickerProviderStateMixin {
+class ColorCycleTextAnimationState extends State<ColorCycleTextAnimation>
+    with SingleTickerProviderStateMixin {
   AnimationController? _controller;
 
   final List<Color> _colors = [
@@ -49,8 +50,8 @@ class ColorCycleTextAnimationState extends State<ColorCycleTextAnimation> with S
     return AnimatedBuilder(
       animation: _controller!,
       builder: (context, child) {
-        // Determine the text color based on the controller's value
-        final int index = (_controller!.value * _colors.length).floor() % _colors.length;
+        final int index =
+            (_controller!.value * _colors.length).floor() % _colors.length;
         return Text(
           widget.text,
           style: widget.textStyle.copyWith(color: _colors[index]),

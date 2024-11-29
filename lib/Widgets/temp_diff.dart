@@ -3,18 +3,17 @@ import 'package:flutter/material.dart';
 class TemperatureDifferenceDisplay extends StatelessWidget {
   final double difference;
   final String message;
-  final Color textColor; // Assuming you've added this to control the text color dynamically
+  final Color textColor;
 
   const TemperatureDifferenceDisplay({
     Key? key,
     required this.difference,
     required this.message,
-    this.textColor = Colors.black, // Default color
+    this.textColor = Colors.black,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // The builder method constructs a widget that displays both the message and the difference.
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
@@ -22,10 +21,11 @@ class TemperatureDifferenceDisplay extends StatelessWidget {
           message,
           style: const TextStyle(fontSize: 16, color: Colors.black),
         ),
-        const SizedBox(height: 10), // Adding some space between the message and the difference (optional
+        const SizedBox(height: 10),
         Text(
-          '${difference.abs().toStringAsFixed(1)}°C', // Displaying the difference as a string here
-          style: TextStyle(fontSize: 40, color: textColor, fontWeight: FontWeight.bold),
+          '${difference.abs().toStringAsFixed(1)}°C',
+          style: TextStyle(
+              fontSize: 40, color: textColor, fontWeight: FontWeight.bold),
         ),
       ],
     );

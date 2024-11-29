@@ -45,7 +45,7 @@ class FullImage extends StatelessWidget {
                 ),
               ),
             ),
-            // Additional widgets can be added here
+          
           ],
         ),
       ),

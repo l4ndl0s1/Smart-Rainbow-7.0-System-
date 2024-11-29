@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_print
-
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -8,7 +6,6 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'package:smartrainbow/Pages/model3d.dart';
-
 
 import 'package:smartrainbow/Services/safetemp.dart';
 
@@ -25,8 +22,6 @@ import 'package:smartrainbow/Widgets/rainbow_buttons.dart';
 import 'package:smartrainbow/Widgets/slider.dart';
 import 'package:smartrainbow/line.dart';
 import 'package:smartrainbow/style.dart';
-
-import 'Pages/video_player.dart';
 
 void main() => runApp(const MyApp());
 
@@ -56,7 +51,7 @@ class BluetoothTemperatureAppState extends State<BluetoothTemperatureApp>
     with SingleTickerProviderStateMixin {
   BluetoothState _bluetoothState = BluetoothState.UNKNOWN;
   BluetoothConnection? _connection;
-       bool _isDisconnecting = false; 
+  bool _isDisconnecting = false;
   List<BluetoothDevice> _devicesList = [];
   BluetoothDevice? _device;
   bool _isConnected = false;
@@ -71,7 +66,7 @@ class BluetoothTemperatureAppState extends State<BluetoothTemperatureApp>
   final double multiplier = 1.0;
   DateTime startDate = DateTime(1855);
   DateTime endDate = DateTime.now();
-String rotationSpeed = "30deg";
+  String rotationSpeed = "30deg";
   double sliderValue = DateTime.now().year.toDouble();
   int startYear = 1855;
   int currentYear = DateTime.now().year;
@@ -81,9 +76,8 @@ String rotationSpeed = "30deg";
   AnimationController? _animationController1;
   Timer? _debounceTimer;
   List<TemperatureComparison> temperatureComparisons = [];
- final int baseRotationSpeedDeg = 100; 
- String tempDifferenceStr = 'Calculating...'; 
-
+  final int baseRotationSpeedDeg = 100;
+  String tempDifferenceStr = 'Calculating...';
 
   @override
   void initState() {
@@ -141,9 +135,8 @@ String rotationSpeed = "30deg";
   }
 
   Future<void> _calculateAndDisplayTemperatureData() async {
-
     setState(() {
-      _isLoadingTemperatureData = true; 
+      _isLoadingTemperatureData = true;
     });
 
     try {
@@ -152,8 +145,6 @@ String rotationSpeed = "30deg";
         fetchCurrentData(),
       ]);
       calculateTemperatureDifference();
-// Example scaling
-
     } catch (error) {
       print('Error fetching temperature data: $error');
       setState(() {
@@ -165,25 +156,20 @@ String rotationSpeed = "30deg";
       });
     }
   }
-Future<String> calculateRotationSpeed() async {
 
-  double rotationSpeedDegPerDegreeDiff = 10.0; 
+  Future<String> calculateRotationSpeed() async {
+    double rotationSpeedDegPerDegreeDiff = 10.0;
 
+    double newRotationSpeedDeg = difference * rotationSpeedDegPerDegreeDiff;
 
-  double newRotationSpeedDeg = difference * rotationSpeedDegPerDegreeDiff;
+    if (newRotationSpeedDeg < 0) newRotationSpeedDeg = -newRotationSpeedDeg;
+    if (difference == 0.0) newRotationSpeedDeg = 0;
 
+    String calculatedRotationSpeed =
+        "${newRotationSpeedDeg.toStringAsFixed(2)}deg";
 
-  if (newRotationSpeedDeg < 0) newRotationSpeedDeg = -newRotationSpeedDeg; 
-  if (difference == 0.0) newRotationSpeedDeg = 0; 
-
-  String calculatedRotationSpeed = "${newRotationSpeedDeg.toStringAsFixed(2)}deg";
-
-
-
-
-  return calculatedRotationSpeed;
-}
-
+    return calculatedRotationSpeed;
+  }
 
   Future<void> fetchHistoricalData(DateTime date) async {
     DateTime now = DateTime.now();
@@ -196,8 +182,8 @@ Future<String> calculateRotationSpeed() async {
 
     String formattedDate = DateFormat('yyyy-MM-dd').format(queryDate);
     String historicalEndpoint =
-    'https://dataset.api.hub.geosphere.at/v1/station/historical/klima-v2-1d?parameters=tl_mittel&start=$formattedDate&end=$formattedDate&station_ids=105&output_format=geojson';
-final response = await http.get(Uri.parse(historicalEndpoint));
+        'https://dataset.api.hub.geosphere.at/v1/station/historical/klima-v2-1d?parameters=tl_mittel&start=$formattedDate&end=$formattedDate&station_ids=105&output_format=geojson';
+    final response = await http.get(Uri.parse(historicalEndpoint));
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
@@ -219,9 +205,8 @@ final response = await http.get(Uri.parse(historicalEndpoint));
                 : 'No Data Available';
 
             setState(() {
-     
               historicalTemperature = temperature;
-        
+
               historicalData =
                   'Date: ${DateFormat('dd-MM-yyyy').format(queryDate)}, Temperature: $temperature';
             });
@@ -274,7 +259,6 @@ final response = await http.get(Uri.parse(historicalEndpoint));
 
   void calculateTemperatureDifference() {
     if (historicalData.isNotEmpty && currentData.isNotEmpty) {
- 
       final historicalTemp = double.tryParse(historicalData
               .split(',')
               .last
@@ -297,7 +281,7 @@ final response = await http.get(Uri.parse(historicalEndpoint));
       setState(() {
         temperatureDifference = difference.toStringAsFixed(2);
         _sendTemperatureDifference();
-         tempDifferenceStr = 'Temperature Difference: $temperatureDifference';
+        tempDifferenceStr = 'Temperature Difference: $temperatureDifference';
         final prefsService = PreferencesService();
         final comparison = TemperatureComparison(
           historicalDate: selectedDate,
@@ -306,7 +290,6 @@ final response = await http.get(Uri.parse(historicalEndpoint));
           temperatureDifference: difference,
         );
 
-       
         prefsService.saveTemperatureComparison(comparison).then((_) {
           print("Temperature comparison saved successfully.");
 
@@ -314,7 +297,7 @@ final response = await http.get(Uri.parse(historicalEndpoint));
         }).catchError((error) {
           print("Failed to save temperature comparison: $error");
         });
- 
+
         if (_animationController != null) {
           var speedMultiplier = 1.0 + difference.abs();
           _animationController!.duration =
@@ -343,47 +326,46 @@ final response = await http.get(Uri.parse(historicalEndpoint));
     }
   }
 
-void _connect(BluetoothDevice? device) async {
-        if (device == null) {
-            print('Bluetooth device is null');
-            return;
-        }
-
-        try {
-            final connection = await BluetoothConnection.toAddress(device.address);
-            print('Connected to the device: ${device.name}');
-
-            setState(() {
-                _device = device;
-                _connection = connection;
-                _isConnected = true;
-                _isDisconnecting = false;  // Reset disconnecting flag
-            });
-
-            connection.input!.listen((data) {
-                print('Data incoming: ${ascii.decode(data)}');
-            }).onDone(() {
-                if (!_isDisconnecting) {
-                    print('Disconnected by remote request, trying to reconnect...');
-                    _connect(_device);  // Attempt to reconnect
-                } else {
-                    print('Disconnected locally');
-                }
-
-                setState(() {
-                    _isConnected = false;
-                    _device = null;
-                });
-            });
-        } catch (e) {
-            print('Cannot connect, exception occurred: $e');
-            setState(() {
-                _isConnected = false;
-                _device = null;
-            });
-        }
+  void _connect(BluetoothDevice? device) async {
+    if (device == null) {
+      print('Bluetooth device is null');
+      return;
     }
 
+    try {
+      final connection = await BluetoothConnection.toAddress(device.address);
+      print('Connected to the device: ${device.name}');
+
+      setState(() {
+        _device = device;
+        _connection = connection;
+        _isConnected = true;
+        _isDisconnecting = false; // Reset disconnecting flag
+      });
+
+      connection.input!.listen((data) {
+        print('Data incoming: ${ascii.decode(data)}');
+      }).onDone(() {
+        if (!_isDisconnecting) {
+          print('Disconnected by remote request, trying to reconnect...');
+          _connect(_device); // Attempt to reconnect
+        } else {
+          print('Disconnected locally');
+        }
+
+        setState(() {
+          _isConnected = false;
+          _device = null;
+        });
+      });
+    } catch (e) {
+      print('Cannot connect, exception occurred: $e');
+      setState(() {
+        _isConnected = false;
+        _device = null;
+      });
+    }
+  }
 
   void _sendTemperatureDifference() async {
     if (_connection != null && _connection!.isConnected) {
@@ -407,7 +389,7 @@ void _connect(BluetoothDevice? device) async {
                 devicesList: _devicesList,
                 onConnect: (device) {
                   Navigator.of(context).pop(); // Close the connection screen
-                  _connect(device); // Call your existing connect method
+                  _connect(device);
                 },
               )),
     );
@@ -436,20 +418,17 @@ void _connect(BluetoothDevice? device) async {
   }
 
   void updateDateFromSlider(double value) {
-    // Now this function is purely for processing the final slider value
     int selectedYear = value.toInt();
     DateTime selectedDateTime =
         DateTime(selectedYear, DateTime.now().month, DateTime.now().day);
 
-    // You might want to avoid redundant state updates if the selected date hasn't changed
     if (selectedDate.year != selectedYear) {
       setState(() {
         selectedDate = selectedDateTime;
       });
-      // Assuming you perform some actions like fetching data based on the selected date
     }
 
-    // Adding a small delay before fetching the data
+    // Delay
     Future.delayed(const Duration(milliseconds: 1000), () {
       _calculateAndDisplayTemperatureData();
     });
@@ -517,8 +496,6 @@ void _connect(BluetoothDevice? device) async {
       body: Column(
         children: [
           const SizedBox(height: 11),
-          
-         
           if (_isLoadingTemperatureData)
             Expanded(
               child: Column(
@@ -544,9 +521,11 @@ void _connect(BluetoothDevice? device) async {
                   const SizedBox(
                     height: 40,
                   ),
-                  const Text('GeoSphere Austria weather data is loading', style: TextStyle(
-                      fontSize: 22,
-                      color: Color.fromARGB(255, 255, 255, 255),)),
+                  const Text('GeoSphere Austria weather data is loading',
+                      style: TextStyle(
+                        fontSize: 22,
+                        color: Color.fromARGB(255, 255, 255, 255),
+                      )),
                 ],
               ),
             )
@@ -556,31 +535,31 @@ void _connect(BluetoothDevice? device) async {
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 children: [
                   const Column(
-            children: [
-              Text('smart rainbow 7.0 - ice sculpture cursor rpm-speed',
-                  style: TextStyle(
-                      fontSize: 20,
-                      color: Color.fromARGB(255, 255, 255, 255),
-                      fontWeight: FontWeight.bold)),
-              Text('REMOTE CONTROL',
-                  style: TextStyle(
-                      fontSize: 20,
-                      color: Color.fromARGB(255, 255, 255, 255),
-                      fontWeight: FontWeight.bold)),
-            ],
-          ),
+                    children: [
+                      Text('smart rainbow 7.0 - ice sculpture cursor rpm-speed',
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Color.fromARGB(255, 255, 255, 255),
+                              fontWeight: FontWeight.bold)),
+                      Text('REMOTE CONTROL',
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Color.fromARGB(255, 255, 255, 255),
+                              fontWeight: FontWeight.bold)),
+                    ],
+                  ),
                   const SizedBox(height: 15),
                   SliderTheme(
                     data: SliderTheme.of(context).copyWith(
-                      valueIndicatorColor:Colors.transparent,
-                         valueIndicatorTextStyle: const TextStyle(
-               color: Colors.white, fontSize: 18,
-               
+                      valueIndicatorColor: Colors.transparent,
+                      valueIndicatorTextStyle: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
                       ),
                       trackHeight: 15.0,
-                      inactiveTrackColor: const Color.fromARGB(255, 200, 200, 200),
+                      inactiveTrackColor:
+                          const Color.fromARGB(255, 200, 200, 200),
                       trackShape: GradientSliderTrackShape(
-                        
                         gradient: const LinearGradient(
                           colors: [
                             Color.fromARGB(255, 255, 123, 127),
@@ -603,12 +582,10 @@ void _connect(BluetoothDevice? device) async {
                         Expanded(
                           child: Slider(
                             thumbColor: Colors.white,
-                            
                             value: sliderValue,
                             min: 1855,
                             max: 2024,
                             divisions: (2024 - 1855) ~/ 1,
-                            
                             label: sliderValue.round().toString(),
                             onChanged: (value) {
                               setState(() {
@@ -686,35 +663,32 @@ void _connect(BluetoothDevice? device) async {
                               ),
                             ),
                             const SizedBox(height: 5),
-                          ColorCycleTextAnimation(
-  duration: const Duration(seconds: 1),
-  text: '${difference.toStringAsFixed(1)}°C',  
-  textStyle: const TextStyle(
-    fontSize: 77,
-    fontWeight: FontWeight.normal,
-  ),
-),
-
+                            ColorCycleTextAnimation(
+                              duration: const Duration(seconds: 1),
+                              text: '${difference.toStringAsFixed(1)}°C',
+                              textStyle: const TextStyle(
+                                fontSize: 77,
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
                             const SizedBox(height: 0),
                             GradientText(
                               textAlign: TextAlign.center,
-                     'THE HIGHER THE TEMPERATURE DIFFERENCE,\n THE FASTER THE ICE SCULPTURE IS TURNING IN THE FREEZER BOX',
-                style: const TextStyle(
-                  fontSize: 14,
-                ),
-                gradientType: GradientType.linear,
-                
-                colors: const [
-                  Color.fromARGB(255, 255, 123, 127),
-                            Color.fromARGB(255, 255, 210, 127),
-                            Color.fromARGB(255, 255, 255, 125),
-                            Color.fromARGB(255, 126, 255, 126),
-                            Color.fromARGB(255, 127, 255, 254),
-                            Color.fromARGB(255, 119, 150, 255),
-                            Color.fromARGB(255, 183, 145, 255),
-                ],
-              ),
-                            
+                              'THE HIGHER THE TEMPERATURE DIFFERENCE,\n THE FASTER THE ICE SCULPTURE IS TURNING IN THE FREEZER BOX',
+                              style: const TextStyle(
+                                fontSize: 14,
+                              ),
+                              gradientType: GradientType.linear,
+                              colors: const [
+                                Color.fromARGB(255, 255, 123, 127),
+                                Color.fromARGB(255, 255, 210, 127),
+                                Color.fromARGB(255, 255, 255, 125),
+                                Color.fromARGB(255, 126, 255, 126),
+                                Color.fromARGB(255, 127, 255, 254),
+                                Color.fromARGB(255, 119, 150, 255),
+                                Color.fromARGB(255, 183, 145, 255),
+                              ],
+                            ),
                             const SizedBox(height: 40),
                             Padding(
                               padding:
@@ -731,8 +705,7 @@ void _connect(BluetoothDevice? device) async {
                         ),
                       ),
                       const SizedBox(height: 30),
-                      const Text(
-                          'smart_rainbow 7.0_system errors: 7 (0x7)',
+                      const Text('smart_rainbow 7.0_system errors: 7 (0x7)',
                           style: TextStyle(
                               fontSize: 20,
                               color: Colors.white,
@@ -745,41 +718,43 @@ void _connect(BluetoothDevice? device) async {
                           navigateToPage: (page) =>
                               navigateToPage(context, page)),
                       const SizedBox(height: 30),
-                      const Text(
-                          '3D MODEL BASED:',
+                      const Text('3D MODEL BASED:',
                           style: TextStyle(fontSize: 15, color: Colors.white)),
                       const SizedBox(height: 15),
                       Container(
-  
-    padding: const EdgeInsets.all(0.1),
-    decoration: BoxDecoration(
-      border: Border.all(color: Colors.white),
-      borderRadius: BorderRadius.circular(100.0),
-    ),
-    child:SizedBox(
-                        height: 110,
-                        child: GestureDetector(
-                          
-                          onTap: () async {
-  
-    String calculatedRotationSpeed = await calculateRotationSpeed(); 
-
-    // ignore: use_build_context_synchronously
-    Navigator.of(context).push(
-      MaterialPageRoute(
-       // builder: (context) =>const Video(),
-        builder: (context) => My3DModelPage(rotationSpeed: calculatedRotationSpeed,  tempDifference: tempDifferenceStr, ),
-      ),
-    );
-  },
-                          child: _animationController != null
-                              ? RotationTransition(
-                                  turns: _animationController!,
-                                  child: Image.asset('assets/3d und last cursor now.png'),
-                                )
-                              : Image.asset('assets/3d und last cursor now.png'),
+                        padding: const EdgeInsets.all(0.1),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.white),
+                          borderRadius: BorderRadius.circular(100.0),
                         ),
-                      ),
+                        child: SizedBox(
+                          height: 110,
+                          child: GestureDetector(
+                            onTap: () async {
+                              String calculatedRotationSpeed =
+                                  await calculateRotationSpeed();
+
+                              // ignore: use_build_context_synchronously
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  // builder: (context) =>const Video(),
+                                  builder: (context) => My3DModelPage(
+                                    rotationSpeed: calculatedRotationSpeed,
+                                    tempDifference: tempDifferenceStr,
+                                  ),
+                                ),
+                              );
+                            },
+                            child: _animationController != null
+                                ? RotationTransition(
+                                    turns: _animationController!,
+                                    child: Image.asset(
+                                        'assets/3d und last cursor now.png'),
+                                  )
+                                : Image.asset(
+                                    'assets/3d und last cursor now.png'),
+                          ),
+                        ),
                       ),
                       const SizedBox(height: 30),
                     ],
@@ -789,13 +764,13 @@ void _connect(BluetoothDevice? device) async {
             ),
           const SizedBox(height: 15),
           Padding(
-            padding: const EdgeInsets.only( right: 8.0),
+            padding: const EdgeInsets.only(right: 8.0),
             child: Align(
               alignment: Alignment.bottomRight,
               child: _device != null && _isConnected
                   ? const Text(
                       'smart rainbow 7.0: connected',
-                     // '${_device!.name}: connected',
+                      // '${_device!.name}: connected',
                       style: TextStyle(
                           fontSize: 12, color: Color.fromARGB(255, 0, 0, 0)),
                     )
@@ -813,7 +788,7 @@ void _connect(BluetoothDevice? device) async {
 
   @override
   void dispose() {
-     _isDisconnecting = true;  // Set disconnecting flag
+    _isDisconnecting = true;
     _connection?.dispose();
     _animationController?.dispose();
     super.dispose();

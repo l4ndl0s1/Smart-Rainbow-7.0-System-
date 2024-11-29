@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_print
-
 import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
@@ -7,7 +5,8 @@ import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 
 class BluetoothService {
   BluetoothConnection? _connection;
-  final StreamController<BluetoothDevice> _deviceController = StreamController.broadcast();
+  final StreamController<BluetoothDevice> _deviceController =
+      StreamController.broadcast();
   final StreamController<String> _dataController = StreamController.broadcast();
 
   Stream<BluetoothDevice> get deviceStream => _deviceController.stream;
@@ -15,7 +14,8 @@ class BluetoothService {
 
   Future<void> initialize() async {
     // Initialize Bluetooth
-    final List<BluetoothDevice> devices = await FlutterBluetoothSerial.instance.getBondedDevices();
+    final List<BluetoothDevice> devices =
+        await FlutterBluetoothSerial.instance.getBondedDevices();
     for (var device in devices) {
       _deviceController.add(device);
     }
@@ -28,9 +28,7 @@ class BluetoothService {
 
       _connection!.input!.listen((Uint8List data) {
         _dataController.add(utf8.decode(data));
-      }).onDone(() {
-        // Handle connection closure
-      });
+      }).onDone(() {});
     } catch (e) {
       print('Cannot connect, exception occurred');
       print(e);

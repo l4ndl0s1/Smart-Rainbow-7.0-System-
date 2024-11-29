@@ -18,7 +18,8 @@ class TemperatureComparison {
         'temperatureDifference': temperatureDifference,
       };
 
-  factory TemperatureComparison.fromJson(Map<String, dynamic> json) => TemperatureComparison(
+  factory TemperatureComparison.fromJson(Map<String, dynamic> json) =>
+      TemperatureComparison(
         historicalDate: DateTime.parse(json['historicalDate']),
         historicalTemperature: json['historicalTemperature'],
         currentTemperature: json['currentTemperature'],

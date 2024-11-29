@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:smartrainbow/style.dart';
 
-
 class CustomDatePicker extends StatefulWidget {
   final DateTime selectedDate;
   final Function(DateTime) onDateChanged;
-  final String historicalTemperature; // Add this
+  final String historicalTemperature;
 
   const CustomDatePicker({
     Key? key,
     required this.selectedDate,
     required this.onDateChanged,
-    required this.historicalTemperature, // Add this
+    required this.historicalTemperature,
   }) : super(key: key);
 
   @override
@@ -29,38 +28,38 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
     selectedDay = widget.selectedDate.day;
     selectedMonth = widget.selectedDate.month;
     selectedYear = widget.selectedDate.year;
-
   }
 
-
   List<int> getDaysInMonth(int year, int month) {
-    final lastDayOfMonth = (month < 12) ? DateTime(year, month + 1, 0) : DateTime(year + 1, 1, 0);
+    final lastDayOfMonth =
+        (month < 12) ? DateTime(year, month + 1, 0) : DateTime(year + 1, 1, 0);
     return List.generate(lastDayOfMonth.day, (index) => index + 1);
   }
 
-void updateDate() {
-  final daysInMonth = getDaysInMonth(selectedYear, selectedMonth);
-  final adjustedDay = (selectedDay > daysInMonth.last) ? daysInMonth.last : selectedDay;
+  void updateDate() {
+    final daysInMonth = getDaysInMonth(selectedYear, selectedMonth);
+    final adjustedDay =
+        (selectedDay > daysInMonth.last) ? daysInMonth.last : selectedDay;
 
-  DateTime newDate = DateTime(selectedYear, selectedMonth, adjustedDay);
-  
-  DateTime now = DateTime.now();
-  DateTime today = DateTime(now.year, now.month, now.day);
-  if (newDate.compareTo(today) == 0) {
-    newDate = today.subtract(const Duration(days: 1));
+    DateTime newDate = DateTime(selectedYear, selectedMonth, adjustedDay);
+
+    DateTime now = DateTime.now();
+    DateTime today = DateTime(now.year, now.month, now.day);
+    if (newDate.compareTo(today) == 0) {
+      newDate = today.subtract(const Duration(days: 1));
+    }
+
+    widget.onDateChanged(newDate);
   }
-
-  widget.onDateChanged(newDate);
-}
-
-
 
   @override
   Widget build(BuildContext context) {
     final days = getDaysInMonth(selectedYear, selectedMonth);
-    final dayItems = days.map<DropdownMenuItem<int>>(
-      (day) => DropdownMenuItem(value: day, child: Text('$day')),
-    ).toList();
+    final dayItems = days
+        .map<DropdownMenuItem<int>>(
+          (day) => DropdownMenuItem(value: day, child: Text('$day')),
+        )
+        .toList();
 
     final monthItems = List<DropdownMenuItem<int>>.generate(
       12,
@@ -75,9 +74,9 @@ void updateDate() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text('HISTORICAL AVERAGE DAYTIME TEMPERATURE = ', style: TextStyle(fontSize: 20, color: AppColors.red)),
+        const Text('HISTORICAL AVERAGE DAYTIME TEMPERATURE = ',
+            style: TextStyle(fontSize: 20, color: AppColors.red)),
         DropdownButton<int>(
-         
           value: selectedDay,
           items: dayItems,
           onChanged: (int? newValue) {
@@ -87,9 +86,9 @@ void updateDate() {
             });
           },
         ),
-        Container(width: 10, height: 20, color: Colors.transparent), // Separator
+        Container(
+            width: 10, height: 20, color: Colors.transparent), // Separator
         DropdownButton<int>(
-      
           value: selectedMonth,
           items: monthItems,
           onChanged: (int? newValue) {
@@ -99,7 +98,7 @@ void updateDate() {
             });
           },
         ),
-      
+
         DropdownButton<int>(
           value: selectedYear,
           items: yearItems,
@@ -110,9 +109,10 @@ void updateDate() {
             });
           },
         ),
-        Container(width: 10, height: 20, color: Colors.transparent), // Separator
-       Text(": ${widget.historicalTemperature}", style: const TextStyle(fontSize: 20, color: AppColors.red)),
-
+        Container(
+            width: 10, height: 20, color: Colors.transparent), // Separator
+        Text(": ${widget.historicalTemperature}",
+            style: const TextStyle(fontSize: 20, color: AppColors.red)),
       ],
     );
   }
